@@ -4,9 +4,10 @@ public class MultipleChoiceQuestion extends Question {
 
     public MultipleChoiceQuestion(String questionText, String[] options, int correctAnswerIndex, String hint, Difficulty difficulty) {
         super(questionText, hint, difficulty);
-        this.options = options;
+        this.options= options;
         this.correctAnswerIndex = correctAnswerIndex;
     }
+
 
     @Override
     public void display() {
@@ -16,20 +17,23 @@ public class MultipleChoiceQuestion extends Question {
         }
     }
 
+
     @Override
     public boolean checkAnswer(String userAnswer) {
         try {
-            int answerIndex = Integer.parseInt(userAnswer) - 1;
+            int answerIndex =Integer.parseInt(userAnswer) -1;
             return answerIndex == correctAnswerIndex;
         } catch (NumberFormatException e) {
             return false;
         }
     }
 
+
     @Override
     public int calculateScore(String userAnswer) {
         return checkAnswer(userAnswer) ? getScoreBasedOnDifficulty() : 0;
     }
+
 
     private int getScoreBasedOnDifficulty() {
         return switch (difficulty) {
