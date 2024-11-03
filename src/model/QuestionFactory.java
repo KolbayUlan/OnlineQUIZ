@@ -1,3 +1,5 @@
+package model;
+
 public class QuestionFactory {
     public static Question createMultipleChoiceQuestion(String questionText, String[] options, int correctAnswerIndex, String hint, Question.Difficulty difficulty) {
         return new MultipleChoiceQuestion(questionText, options, correctAnswerIndex, hint, difficulty);

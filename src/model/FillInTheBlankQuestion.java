@@ -1,7 +1,9 @@
+package model;
+
 public class FillInTheBlankQuestion extends Question {
     private String correctAnswer;
 
-    public FillInTheBlankQuestion(String questionText, String correctAnswer, String hint, Difficulty difficulty) {
+    public FillInTheBlankQuestion(String questionText, String correctAnswer, String hint, Question.Difficulty difficulty) {
         super(questionText, hint, difficulty);
         this.correctAnswer = correctAnswer;
     }
@@ -25,9 +27,9 @@ public class FillInTheBlankQuestion extends Question {
 
     private int getScoreBasedOnDifficulty() {
         return switch (difficulty) {
-            case EASY -> 1;
-            case MEDIUM -> 3;
-            case HARD -> 5;
+            case Question.Difficulty.EASY -> 1;
+            case Question.Difficulty.MEDIUM -> 3;
+            case Question.Difficulty.HARD -> 5;
         };
     }
 }
