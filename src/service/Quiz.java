@@ -14,6 +14,7 @@ public class Quiz {
 
     public Quiz() {
         this.questions = new ArrayList<>();
+        this.observers = new ArrayList<>();
         this.totalScore = 0;
     }
 

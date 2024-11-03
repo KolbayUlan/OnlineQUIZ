@@ -2,6 +2,7 @@
 
 import model.Question;
 import model.QuestionFactory;
+import service.Observer.ConsoleScoreObserver;
 import service.Quiz;
 
 public class QuizApp {
@@ -9,7 +10,6 @@ public class QuizApp {
         Quiz quiz = new Quiz();
 
 
-        // Adding multiple choice question
         quiz.addQuestion(QuestionFactory.createMultipleChoiceQuestion(
                 "What is the capital of France?",
                 new String[]{"Berlin", "London", "Paris", "Madrid"},
@@ -18,7 +18,6 @@ public class QuizApp {
                 Question.Difficulty.EASY
         ));
 
-        // Adding true/false question
         quiz.addQuestion(QuestionFactory.createTrueFalseQuestion(
                 "The Earth is flat.",
                 false,
@@ -26,7 +25,6 @@ public class QuizApp {
                 Question.Difficulty.EASY
         ));
 
-        // Adding fill-in-the-blank question
         quiz.addQuestion(QuestionFactory.createFillInTheBlankQuestion(
                 "What is the largest planet in our Solar System?",
                 "Jupiter",
@@ -34,7 +32,9 @@ public class QuizApp {
                 Question.Difficulty.MEDIUM
         ));
 
-        // Start the quiz
+        ConsoleScoreObserver scoreObserver = new ConsoleScoreObserver();
+        quiz.addObserver(scoreObserver);
+
         quiz.start();
     }
 }
