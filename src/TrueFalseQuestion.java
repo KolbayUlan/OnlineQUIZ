@@ -1,11 +1,9 @@
-// File: src/TrueFalseQuestion.java
-
 public class TrueFalseQuestion extends Question {
     private boolean correctAnswer;
 
     public TrueFalseQuestion(String questionText, boolean correctAnswer, String hint, Difficulty difficulty) {
         super(questionText, hint, difficulty);
-        this.correctAnswer = correctAnswer;
+        this.correctAnswer= correctAnswer;
     }
 
     @Override
