@@ -1,5 +1,3 @@
-// File: src/FillInTheBlankQuestion.java
-
 public class FillInTheBlankQuestion extends Question {
     private String correctAnswer;
 
@@ -10,13 +8,15 @@ public class FillInTheBlankQuestion extends Question {
 
     @Override
     public void display() {
-        System.out.println(questionText + " (Please type your answer)");
+        System.out.println(questionText + " (Please type your answer:)");
     }
+
 
     @Override
     public boolean checkAnswer(String userAnswer) {
         return userAnswer.equalsIgnoreCase(correctAnswer);
     }
+
 
     @Override
     public int calculateScore(String userAnswer) {
