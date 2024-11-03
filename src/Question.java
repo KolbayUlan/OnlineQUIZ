@@ -8,19 +8,23 @@ public abstract class Question {
         EASY, MEDIUM, HARD
     }
 
+
     public Question(String questionText, String hint, Difficulty difficulty) {
         this.questionText = questionText;
         this.hint = hint;
         this.difficulty = difficulty;
     }
 
+
     public String getQuestionText() {
         return questionText;
     }
 
+
     public String getHint() {
         return hint;
     }
+
 
     public Difficulty getDifficulty() {
         return difficulty;
