@@ -1,3 +1,5 @@
+package model;
+
 public class MultipleChoiceQuestion extends Question {
     private String[] options;
     private int correctAnswerIndex;
@@ -23,7 +25,7 @@ public class MultipleChoiceQuestion extends Question {
         try {
             int answerIndex =Integer.parseInt(userAnswer) -1;
             return answerIndex == correctAnswerIndex;
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             return false;
         }
     }

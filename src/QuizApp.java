@@ -1,8 +1,13 @@
 // File: src/QuizApp.java
 
+import model.Question;
+import model.QuestionFactory;
+import service.Quiz;
+
 public class QuizApp {
     public static void main(String[] args) {
         Quiz quiz = new Quiz();
+
 
         // Adding multiple choice question
         quiz.addQuestion(QuestionFactory.createMultipleChoiceQuestion(
