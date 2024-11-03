@@ -1,4 +1,3 @@
-// File: src/Question.java
 
 public abstract class Question {
     protected String questionText;
@@ -26,6 +25,7 @@ public abstract class Question {
     public Difficulty getDifficulty() {
         return difficulty;
     }
+
     public abstract void display();
     public abstract boolean checkAnswer(String userAnswer);
     public abstract int calculateScore(String userAnswer);

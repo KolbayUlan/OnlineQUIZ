@@ -1,5 +1,3 @@
-// File: src/MultipleChoiceQuestion.java
-
 public class MultipleChoiceQuestion extends Question {
     private String[] options;
     private int correctAnswerIndex;
