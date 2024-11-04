@@ -20,15 +20,22 @@ public abstract class Question {
     public String getQuestionText() {
         return questionText;
     }
-
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
 
     public String getHint() {
         return hint;
     }
-
+    public void setHint(String hint) {
+        this.hint = hint;
+    }
 
     public Difficulty getDifficulty() {
         return difficulty;
+    }
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public abstract void display();

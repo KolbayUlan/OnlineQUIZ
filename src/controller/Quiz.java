@@ -1,4 +1,4 @@
-package service;
+package controller;
 
 import model.Question;
 import service.Observer.ScoreObserver;
@@ -32,8 +32,23 @@ public class Quiz {
         questions.add(question);
     }
 
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void deleteQuestion(int questionIndex) {
+        if (questionIndex >= 0 && questionIndex < questions.size()) {
+            questions.remove(questionIndex);
+            System.out.println("Question deleted successfully.");
+        } else {
+            System.out.println("Invalid question index. Deletion failed.");
+        }
+    }
+
     public void start() {
         Scanner scanner = new Scanner(System.in);
+        int maxScore = 0;
+
         for (Question question : questions) {
             question.display();
 
@@ -48,12 +63,26 @@ public class Quiz {
             int score = question.calculateScore(userAnswer);
             totalScore += score;
 
+            maxScore += switch (question.getDifficulty()) {
+                case EASY -> 1;
+                case MEDIUM -> 3;
+                case HARD -> 5;
+            };
+
             System.out.println(score > 0 ? "Correct!" : "Incorrect.");
             System.out.println("Score for this question: " + score + "\n");
+
+            // Notify observers after each question
             notifyObservers();
         }
 
-        scanner.close();
-        System.out.println("service.Quiz finished! Total score: " + totalScore + "/" + (questions.size() * 5));
+        System.out.println("Quiz finished! Total score: " + totalScore + "/" + maxScore);
+    }
+
+    public void displayQuiz() {
+        System.out.println("Quiz Questions:");
+        for (Question question : questions) {
+            question.display();
+        }
     }
 }
