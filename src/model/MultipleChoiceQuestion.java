@@ -6,7 +6,7 @@ public class MultipleChoiceQuestion extends Question {
 
     public MultipleChoiceQuestion(String questionText, String[] options, int correctAnswerIndex, String hint, Difficulty difficulty) {
         super(questionText, hint, difficulty);
-        this.options= options;
+        this.options = options;
         this.correctAnswerIndex = correctAnswerIndex;
     }
 
