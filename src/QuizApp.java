@@ -23,11 +23,10 @@
 //                Question.Difficulty.MEDIUM
 //        ));
 
+import controller.QuizController;
 import controller.UserController;
-import model.Question;
-import model.QuestionFactory;
 import service.Observer.ConsoleScoreObserver;
-import controller.Quiz;
+import model.Quiz;
 
 import java.util.Scanner;
 
@@ -36,7 +35,7 @@ public class QuizApp {
         Scanner scanner = new Scanner(System.in);
         UserController userController = new UserController();
         Quiz quiz = new Quiz();
-
+        QuizController quizController = new QuizController();
         Long userID = null;
         boolean isAdmin = false;
 
@@ -98,7 +97,8 @@ public class QuizApp {
     private static void startQuiz(Quiz quiz) {
         ConsoleScoreObserver scoreObserver = new ConsoleScoreObserver();
         quiz.addObserver(scoreObserver);
-        quiz.start();
+        QuizController quizController = new QuizController();
+        quizController.start(quiz);
     }
 
     private static void manageQuiz(Scanner scanner, Quiz quiz) {
@@ -106,12 +106,12 @@ public class QuizApp {
             System.out.println("\nQuiz Management Menu:\n1. Add Question\n2. Edit Question\n3. Delete Question\n4. Display Quiz\n5. Go Back");
             int adminChoice = scanner.nextInt();
             scanner.nextLine();
-
+            QuizController quizController = new QuizController();
             switch (adminChoice) {
-                case 1 -> addQuestionToQuiz(scanner, quiz);
-                case 2 -> editQuestionInQuiz(scanner, quiz);
-                case 3 -> deleteQuestionFromQuiz(scanner, quiz);
-                case 4 -> quiz.displayQuiz();
+                case 1 -> quizController.addQuestionToQuiz(scanner, quiz);
+                case 2 -> quizController.editQuestionInQuiz(scanner, quiz);
+                case 3 -> quizController.deleteQuestionFromQuiz(scanner, quiz);
+                case 4 -> quizController.displayQuiz(quiz);
                 case 5 -> {
                     return;
                 }
@@ -120,93 +120,4 @@ public class QuizApp {
         }
     }
 
-    private static void addQuestionToQuiz(Scanner scanner, Quiz quiz) {
-        System.out.println("Choose question type:\n1. Multiple Choice\n2. True/False\n3. Fill-in-the-Blank");
-        int type = scanner.nextInt();
-        scanner.nextLine();
-
-        Question newQuestion = null;
-
-        switch (type) {
-            case 1 -> {
-                System.out.print("Enter question text: ");
-                String questionText = scanner.nextLine();
-                System.out.print("Enter number of options: ");
-                int numOptions = scanner.nextInt();
-                scanner.nextLine();
-                String[] options = new String[numOptions];
-                for (int i = 0; i < numOptions; i++) {
-                    System.out.print("Enter option " + (i + 1) + ": ");
-                    options[i] = scanner.nextLine();
-                }
-                System.out.print("Enter the correct option number: ");
-                int correctAnswerIndex = scanner.nextInt() - 1;
-                scanner.nextLine();
-                System.out.print("Enter hint: ");
-                String hint = scanner.nextLine();
-                newQuestion = QuestionFactory.createMultipleChoiceQuestion(questionText, options, correctAnswerIndex, hint, Question.Difficulty.MEDIUM);
-            }
-            case 2 -> {
-                System.out.print("Enter question text: ");
-                String questionText = scanner.nextLine();
-                System.out.print("Enter correct answer (true/false): ");
-                boolean correctAnswer = scanner.nextBoolean();
-                scanner.nextLine();
-                System.out.print("Enter hint: ");
-                String hint = scanner.nextLine();
-                newQuestion = QuestionFactory.createTrueFalseQuestion(questionText, correctAnswer, hint, Question.Difficulty.EASY);
-            }
-            case 3 -> {
-                System.out.print("Enter question text: ");
-                String questionText = scanner.nextLine();
-                System.out.print("Enter the correct answer: ");
-                String correctAnswer = scanner.nextLine();
-                System.out.print("Enter hint: ");
-                String hint = scanner.nextLine();
-                newQuestion = QuestionFactory.createFillInTheBlankQuestion(questionText, correctAnswer, hint, Question.Difficulty.HARD);
-            }
-            default -> System.out.println("Invalid question type selected.");
-        }
-
-        if (newQuestion != null) {
-            quiz.addQuestion(newQuestion);
-            System.out.println("Question added successfully!");
-        }
-    }
-
-    private static void editQuestionInQuiz(Scanner scanner, Quiz quiz) {
-        quiz.displayQuiz();
-        System.out.print("Enter question number to edit: ");
-        int questionNumber = scanner.nextInt() - 1;
-        scanner.nextLine();
-
-        if (questionNumber < 0 || questionNumber >= quiz.getQuestions().size()) {
-            System.out.println("Invalid question number.");
-            return;
-        }
-
-        Question questionToEdit = quiz.getQuestions().get(questionNumber);
-
-        System.out.println("Editing question: " + questionToEdit.getQuestionText());
-        System.out.print("Enter new question text: ");
-        String questionText = scanner.nextLine();
-        questionToEdit.setQuestionText(questionText);
-
-        System.out.println("Question updated successfully.");
-    }
-
-    private static void deleteQuestionFromQuiz(Scanner scanner, Quiz quiz) {
-        quiz.displayQuiz();
-        System.out.print("Enter question number to delete: ");
-        int questionNumber = scanner.nextInt() - 1;
-        scanner.nextLine();
-
-        if (questionNumber < 0 || questionNumber >= quiz.getQuestions().size()) {
-            System.out.println("Invalid question number.");
-            return;
-        }
-
-        quiz.deleteQuestion(questionNumber);
-        System.out.println("Question deleted successfully.");
-    }
 }
