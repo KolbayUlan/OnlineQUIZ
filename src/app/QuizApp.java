@@ -1,9 +1,7 @@
 package app;
 
-import model.Quiz;
-import controller.state.LoginState;
-import controller.state.State;
-import controller.UserController;
+import controller.facade.QuizFacade;
+import controller.state.*;
 
 import java.util.Scanner;
 
@@ -11,12 +9,12 @@ public class QuizApp {
     private State currentState;
     private Long userID;
     private final Scanner scanner;
-    private Quiz quiz;
+    private final QuizFacade quizFacade;
 
     public QuizApp() {
         this.scanner = new Scanner(System.in);
-        this.currentState = new LoginState(this, scanner, new UserController());
-        this.quiz = new Quiz();
+        this.quizFacade = new QuizFacade(); // Initialize QuizFacade
+        this.currentState = new LoginState(this, scanner, quizFacade);
     }
 
     public static void main(String[] args) {
@@ -30,18 +28,19 @@ public class QuizApp {
         this.currentState = state;
     }
 
-    public void setUserID(Long userID) {
-        this.userID = userID;
-    }
-
     public Long getUserID() {
         return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 
     public Scanner getScanner() {
         return scanner;
     }
-    public Quiz getQuiz() {
-        return quiz;
+
+    public QuizFacade getQuizFacade() {
+        return quizFacade;
     }
 }

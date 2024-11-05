@@ -1,19 +1,19 @@
 package controller.state;
 
-import controller.UserController;
 import app.QuizApp;
+import controller.facade.QuizFacade;
 
 import java.util.Scanner;
 
 public class LoginState implements State {
     private final QuizApp quizApp;
     private final Scanner scanner;
-    private final UserController userController;
+    private final QuizFacade quizFacade;
 
-    public LoginState(QuizApp quizApp, Scanner scanner, UserController userController) {
+    public LoginState(QuizApp quizApp, Scanner scanner, QuizFacade quizFacade) {
         this.quizApp = quizApp;
         this.scanner = scanner;
-        this.userController = userController;
+        this.quizFacade = quizFacade;
     }
 
     @Override
@@ -23,16 +23,16 @@ public class LoginState implements State {
         scanner.nextLine();
 
         if (choice == 1) {
-            Long userID = userController.loginUser();
+            Long userID = quizFacade.loginUser(scanner);
             if (userID != null) {
                 quizApp.setUserID(userID);
-                quizApp.setState(userID == 0L ? new AdminState(quizApp, scanner) : new UserState(quizApp, scanner));
+                quizApp.setState(userID == 0L ? new AdminState(quizApp, scanner, quizFacade) : new UserState(quizApp, scanner, quizFacade));
                 System.out.println("Logged in successfully as " + (userID == 0L ? "Admin" : "User") + ".");
             } else {
                 System.out.println("Login failed. Please try again.");
             }
         } else if (choice == 2) {
-            userController.registerUser();
+            quizFacade.registerUser(scanner);
         } else if (choice == 3) {
             System.out.println("Exiting application.");
             System.exit(0);
