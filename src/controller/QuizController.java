@@ -116,7 +116,7 @@ public class QuizController {
 
             int score = question.calculateScore(userAnswer);
             totalScore += score;
-
+            quiz.setTotalScore(totalScore);
             maxScore += switch (question.getDifficulty()) {
                 case EASY -> 1;
                 case MEDIUM -> 3;
