@@ -1,21 +1,19 @@
 package controller.state;
 
 import app.QuizApp;
-import controller.UserController;
-import model.Quiz;
-import controller.QuizController;
+import controller.facade.QuizFacade;
 
 import java.util.Scanner;
 
 public class AdminState implements State {
     private final QuizApp quizApp;
     private final Scanner scanner;
-    private final QuizController quizController;
+    private final QuizFacade quizFacade;
 
-    public AdminState(QuizApp quizApp, Scanner scanner) {
+    public AdminState(QuizApp quizApp, Scanner scanner, QuizFacade quizFacade) {
         this.quizApp = quizApp;
         this.scanner = scanner;
-        this.quizController = new QuizController();
+        this.quizFacade = quizFacade;
     }
 
     @Override
@@ -27,30 +25,11 @@ public class AdminState implements State {
         scanner.nextLine();
 
         switch (choice) {
-            case 1 -> quizApp.setState(new QuizState(quizApp, quizApp.getQuiz()));
-            case 2 -> manageQuiz();
-            case 3 -> quizApp.setState(new LoginState(quizApp, scanner, new UserController()));
-            case 4 -> {
-                System.out.println("Exiting application.");
-                System.exit(0);
-            }
+            case 1 -> quizFacade.startQuiz();
+            case 2 -> quizFacade.manageQuiz(scanner);
+            case 3 -> quizApp.setState(new LoginState(quizApp, scanner, quizFacade));
+            case 4 -> System.exit(0);
             default -> System.out.println("Invalid choice. Please try again.");
-        }
-    }
-
-    private void manageQuiz() {
-        while (true) {
-            System.out.println("\nQuiz Management Menu:\n1. Add Question\n2. Edit Question\n3. Delete Question\n4. Display Quiz\n5. Go Back");
-            int adminChoice = scanner.nextInt();
-            scanner.nextLine();
-            switch (adminChoice) {
-                case 1 -> quizController.addQuestionToQuiz(scanner, quizApp.getQuiz());
-                case 2 -> quizController.editQuestionInQuiz(scanner, quizApp.getQuiz());
-                case 3 -> quizController.deleteQuestionFromQuiz(scanner, quizApp.getQuiz());
-                case 4 -> quizController.displayQuiz(quizApp.getQuiz());
-                case 5 -> { return; }
-                default -> System.out.println("Invalid option. Please try again.");
-            }
         }
     }
 }
